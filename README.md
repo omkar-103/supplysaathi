@@ -121,62 +121,52 @@ SupplySaathi-prava/
 ## Getting Started
 
 ### Prerequisites
-
 - **Node.js**: `v18.0.0` or higher
 - **npm**: `v9.0.0` or higher
 
-### Installation
+### Setup & Launch
 
-1. **Clone the repository**:
+1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/SupplySaathi-prava.git
-   cd SupplySaathi-prava
+   git clone https://github.com/omkar-103/supplysaathi.git
+   cd supplysaathi
    ```
 
-2. **Install dependencies**:
+2. **Install project dependencies**
    ```bash
    npm install
    ```
 
-### Environment Setup
-
-1. Create a `.env.local` file in the project root by copying `.env.example`:
+3. **Configure environment variables**
    ```bash
+   # Copy example template to local environment file
    cp .env.example .env.local
    ```
+   *Edit `.env.local` with your credentials (`VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`). `.env` and `.env.local` are safely excluded by `.gitignore`.*
 
-2. Configure environment variables in `.env.local`:
-   ```env
-   VITE_SUPABASE_URL=your_supabase_url_here
-   VITE_SUPABASE_PUBLISHABLE_KEY=your_supabase_publishable_key_here
+4. **Initialize Supabase Database**
+   ```bash
+   # Execute supabase/migrations/001_schema.sql in Supabase SQL Editor
    ```
 
-> **Note on Security**: `.env` and `.env.local` are explicitly excluded by `.gitignore` (verified in project `.gitignore`) to ensure API credentials are never committed.
-
-### Supabase Backend Setup
-
-1. **Database Schema**: Execute [`supabase/migrations/001_schema.sql`](file:///c:/Users/Nishita/OneDrive/Desktop/SupplySaathi-prava/supabase/migrations/001_schema.sql) in your Supabase SQL Editor. This sets up tables (`users`, `suppliers`, `inventory`, `transactions`, `credit_ledger`), Row-Level Security policies, seed data, and the `trg_update_credit_ledger` trigger.
-2. **Deploy Edge Functions**:
-   Deploy `prava-purchase` and `prava-callback` using Supabase CLI:
+5. **Deploy Supabase Edge Functions**
    ```bash
+   # Deploy purchase and callback edge functions
    supabase functions deploy prava-purchase
    supabase functions deploy prava-callback
    ```
-3. **Configure Edge Function Secrets**:
-   Set secrets in Supabase dashboard or via CLI:
-   ```env
-   SUPABASE_URL=your_supabase_project_url
-   SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
-   PRAVA_SECRET_KEY=your_prava_sandbox_secret_key
+
+6. **Set Edge Function Secrets**
+   ```bash
+   # Configure secrets via Supabase CLI
+   supabase secrets set SUPABASE_URL=your_url SUPABASE_SERVICE_ROLE_KEY=your_key PRAVA_SECRET_KEY=your_prava_key
    ```
 
-### Run Locally
-
-Start the Vite development server:
-```bash
-npm run dev
-```
-Open your browser and navigate to `http://localhost:5173`.
+7. **Start local development server**
+   ```bash
+   # Launch Vite dev server on http://localhost:5173
+   npm run dev
+   ```
 
 ---
 
