@@ -33,27 +33,62 @@
 
 ## Problem Statement
 
-- **Financial Exclusion**: Millions of rural and semi-urban micro-entrepreneurs in India operate entirely in cash, lacking formal credit scores or GST invoices required by traditional banks.
-- **Procurement Friction**: Language barriers and digital complexity prevent small kirana, dairy, and weaver business owners from sourcing raw materials at optimal wholesale rates.
-- **Security & Fraud Risk**: Exposing personal debit cards or sharing UPI PINs for automated purchases creates severe vulnerability to fund draining.
-- **The Solution**: SupplySaathi combines a native-language voice procurement agent with Prava 1-time dynamic payment cards to automate restocking while building a bank-verifiable Credit Ledger.
+India's micro-entrepreneurs face three connected financial and operational barriers:
+
+- **Financial Exclusion**
+  - Operate almost entirely in cash
+  - Lack formal credit scores, GST invoices, or banking history
+  - Repeatedly rejected for traditional bank lending
+- **Procurement Friction**
+  - Language barriers and digital complexity block online sourcing
+  - Difficulty comparing wholesale rates across suppliers
+- **Security & Fraud Risk**
+  - Sharing debit cards or UPI PINs for automated buying is unsafe
+  - Lack of isolated payment credentials for AI agents
+
+**Our Approach**: Native-language voice procurement + Prava 1-time dynamic payment cards + an automatically-generated bank-verifiable Credit Ledger.
 
 ---
 
 ## Features
 
 ### Voice & Agent Intelligence
-- **🎙️ Voice-First Procurement Agent**: Speak restock needs in Hindi (`hi-IN`) or English (`en-IN`) using browser-native Web Speech API. Features an interactive 60 FPS animated Voice Orb and tap-to-test voice prompts.
-- **🔍 Automated Intent Parsing & Low-Stock Auto-Detect**: Keyword dictionary matching across 8 core commodities (*rice, wheat flour, sugar, pulses, cattle feed, medicine, yarn, dye*). Automatically identifies inventory items falling below reorder thresholds (`current_stock <= reorder_threshold`).
-- **⚖️ Weighted Supplier Comparison Algorithm**: Automatically ranks suppliers based on a 60% price and 40% reliability score weighted formula, presenting the optimal choice alongside alternative market quotes.
+- **🎙️ Voice-First Procurement Agent**
+  - Restock using Hindi (`hi-IN`) or English (`en-IN`)
+  - Browser-native Web Speech API (`window.SpeechRecognition`)
+  - Interactive 60 FPS animated Voice Orb and tap-to-test prompts
+- **🔍 Intent Parsing & Low-Stock Auto-Detect**
+  - Keyword matching across 8 core commodities in `intentParser.js`:
+    | Kirana | Dairy | Weaver |
+    |---|---|---|
+    | `rice`, `wheat flour`, `sugar`, `pulses` | `cattle feed`, `medicine` | `yarn`, `dye` |
+  - Automatically targets inventory items where `current_stock <= reorder_threshold`
+- **⚖️ Weighted Supplier Comparison**
+  - Evaluates options using a weighted formula: `60% Price + 40% Reliability`
+  - Selects top match and renders alternative market quotes in `AgentResult.jsx`
 
 ### Payments & Trust
-- **🛡️ Spend Cap Safeguard**: Enforces autonomous safety by checking available monthly spend limits (`user.monthly_limit - running_total_spent`) before purchase authorization.
-- **⚡ Prava Agentic Virtual Card Integration**: Integrates Prava's 1-time scoped payment cards via Supabase Edge Functions, keeping financial credentials isolated per transaction.
-- **🔄 Transparent Demo-Mode Fallback Safeguard**: Always attempts the real Prava sandbox API first with a 9-second timeout. If unreachable or timing out, displays actual error details and transitions after 1.5 seconds to a local fallback transaction—honestly labeled with **"⚡ Demo Mode"** tags across the modal, receipts, and Credit Ledger.
+- **🛡️ Spend Cap Safeguard**
+  - Checks available monthly spend before purchase: `user.monthly_limit - running_total_spent`
+  - Disables payment if limit is exceeded
+- **⚡ Prava Agentic Virtual Cards**
+  - Issues 1-time merchant-scoped payment cards via Supabase Edge Function `prava-purchase`
+  - Keeps merchant financial credentials isolated per transaction
+- **🔄 Transparent Demo-Mode Fallback**
+  - Attempts real Prava sandbox first with a 9-second timeout
+  - If unreachable, shows real error details and transitions after 1.5s to local fallback
+  - Prominently displays **"⚡ Demo Mode"** tags on modal, receipts, and Credit Ledger
 
 ### Credit Building
-- **📊 Verified Credit Ledger & Microfinance Profile**: Automatically tracks verified purchase history, total spend, and transaction counts in PostgreSQL (`credit_ledger`), calculating credit tiers (*Building Record*, *Reliable Kirana*, *Prime Financial Credit*) to support micro-loan applications.
+- **📊 Verified Credit Ledger & Microfinance Profile**
+  - Tracks purchase history, total spend, and transaction count in PostgreSQL `credit_ledger`
+  - Trigger `trg_update_credit_ledger` automatically updates stats on successful transactions
+  - Unlocks progressive credit tiers:
+    | Transaction Threshold | Credit Status Tier |
+    |---|---|
+    | `< 2 txns` | `BUILDING RECORD` |
+    | `≥ 2 txns` | `RELIABLE KIRANA` |
+    | `≥ 5 txns` | `PRIME FINANCIAL CREDIT` |
 
 ---
 
@@ -178,10 +213,18 @@ SupplySaathi always attempts the real Prava sandbox integration first on every t
 
 ## Known Limitations
 
-- **Single Demo Profile**: The application runs on a single demo profile (`DEMO_USER_ID`) representing *Ramesh Kirana Store*. Multi-user authentication and registration flows are not included.
-- **Rule-Based Intent Parsing**: Intent parsing relies on a deterministic keyword dictionary matching algorithm (`intentParser.js`) rather than a live LLM natural language processing endpoint.
-- **Static Supplier Catalog**: Supplier records are pre-seeded in the database and local store rather than scraped dynamically from live e-commerce APIs.
-- **Browser Speech API Dependency**: Voice input depends on browser-native Web Speech API support (Chrome, Edge, Safari). Tap-to-test buttons are provided for unsupported environments.
+- **Single Demo Profile**
+  - Operates on a single demo profile (`DEMO_USER_ID`) representing *Ramesh Kirana Store*
+  - Multi-tenant auth, signup, and login flows are not implemented
+- **Rule-Based Intent Parsing**
+  - Uses deterministic keyword matching in `intentParser.js`
+  - Does not use an LLM API endpoint for free-form conversational NLP
+- **Static Supplier Catalog**
+  - Suppliers are pre-seeded records in PostgreSQL (`001_schema.sql`) and `demoStore.js`
+  - No real-time scraping or live supplier API integrations
+- **Browser Speech API Dependency**
+  - Voice input requires Web Speech API support (Chrome, Edge, Safari)
+  - Tap-to-test buttons are provided for unsupported environments
 
 ---
 
