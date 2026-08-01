@@ -1,6 +1,6 @@
 # SupplySaathi
 
-> **Agentic Voice-First Procurement & Financial Inclusion Platform for Micro-Merchants**
+**Agentic Voice-First Procurement & Financial Inclusion Platform for Micro-Merchants**
 
 ![Vite](https://img.shields.io/badge/Vite-8.1.1-646CFF?logo=vite&logoColor=white)
 ![React](https://img.shields.io/badge/React-19.2.7-61DAFB?logo=react&logoColor=black)
@@ -33,18 +33,26 @@
 
 ## Problem Statement
 
-Millions of rural and semi-urban micro-entrepreneurs across India—such as local kirana shopkeepers, small-scale dairy farmers, and weaver artisans—operate almost entirely in cash or informal credit. Because they lack formal credit scores, GST invoices, or structured banking histories, traditional banks and financial institutions repeatedly reject their working capital loan applications. Additionally, language barriers and digital complexity prevent them from sourcing inventory at optimal wholesale prices. SupplySaathi solves this by providing a voice-first procurement agent that handles restocking in native languages while automatically building an audit-proof, bank-verifiable Credit Ledger powered by Prava dynamic payment cards.
+- **Financial Exclusion**: Millions of rural and semi-urban micro-entrepreneurs in India operate entirely in cash, lacking formal credit scores or GST invoices required by traditional banks.
+- **Procurement Friction**: Language barriers and digital complexity prevent small kirana, dairy, and weaver business owners from sourcing raw materials at optimal wholesale rates.
+- **Security & Fraud Risk**: Exposing personal debit cards or sharing UPI PINs for automated purchases creates severe vulnerability to fund draining.
+- **The Solution**: SupplySaathi combines a native-language voice procurement agent with Prava 1-time dynamic payment cards to automate restocking while building a bank-verifiable Credit Ledger.
 
 ---
 
 ## Features
 
+### Voice & Agent Intelligence
 - **🎙️ Voice-First Procurement Agent**: Speak restock needs in Hindi (`hi-IN`) or English (`en-IN`) using browser-native Web Speech API. Features an interactive 60 FPS animated Voice Orb and tap-to-test voice prompts.
-- **🔍 Automated Intent Parsing & Low-Stock Auto-Detect**: Keyword dictionary matching across 8 core commodities (*rice, wheat flour, sugar, pulses, cattle feed, medicine, yarn, dye*). If no specific item is named, automatically identifies inventory items falling below reorder thresholds (`current_stock <= reorder_threshold`).
+- **🔍 Automated Intent Parsing & Low-Stock Auto-Detect**: Keyword dictionary matching across 8 core commodities (*rice, wheat flour, sugar, pulses, cattle feed, medicine, yarn, dye*). Automatically identifies inventory items falling below reorder thresholds (`current_stock <= reorder_threshold`).
 - **⚖️ Weighted Supplier Comparison Algorithm**: Automatically ranks suppliers based on a 60% price and 40% reliability score weighted formula, presenting the optimal choice alongside alternative market quotes.
+
+### Payments & Trust
 - **🛡️ Spend Cap Safeguard**: Enforces autonomous safety by checking available monthly spend limits (`user.monthly_limit - running_total_spent`) before purchase authorization.
 - **⚡ Prava Agentic Virtual Card Integration**: Integrates Prava's 1-time scoped payment cards via Supabase Edge Functions, keeping financial credentials isolated per transaction.
-- **🔄 Transparent Demo-Mode Fallback Safeguard**: Always attempts the real Prava sandbox API first with a 9-second timeout. If the sandbox is unreachable or times out, displays the real error details to the user and transitions to a local fallback transaction after 1.5 seconds—honestly labeled with **"⚡ Demo Mode"** tags across the modal, receipts, and Credit Ledger.
+- **🔄 Transparent Demo-Mode Fallback Safeguard**: Always attempts the real Prava sandbox API first with a 9-second timeout. If unreachable or timing out, displays actual error details and transitions after 1.5 seconds to a local fallback transaction—honestly labeled with **"⚡ Demo Mode"** tags across the modal, receipts, and Credit Ledger.
+
+### Credit Building
 - **📊 Verified Credit Ledger & Microfinance Profile**: Automatically tracks verified purchase history, total spend, and transaction counts in PostgreSQL (`credit_ledger`), calculating credit tiers (*Building Record*, *Reliable Kirana*, *Prime Financial Credit*) to support micro-loan applications.
 
 ---
