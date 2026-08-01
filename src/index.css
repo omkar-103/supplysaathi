@@ -1,0 +1,222 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-main: #090d16;
+    --card-surface: #111827;
+    --border-light: rgba(255, 255, 255, 0.08);
+    --border-hover: rgba(99, 102, 241, 0.3);
+    --accent-indigo: #6366f1;
+    --accent-emerald: #10b981;
+    --accent-amber: #f59e0b;
+  }
+
+  body {
+    background-color: var(--bg-main);
+    color: #f8fafc;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-image: 
+      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.18), transparent),
+      radial-gradient(ellipse 60% 40% at 100% 100%, rgba(16, 185, 129, 0.1), transparent);
+    background-attachment: fixed;
+  }
+}
+
+/* Glassmorphism & Panel Utilities */
+.glass-panel {
+  background: rgba(17, 24, 39, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-card-interactive {
+  background: rgba(17, 24, 39, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card-interactive:hover {
+  border-color: rgba(99, 102, 241, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px -10px rgba(99, 102, 241, 0.18);
+}
+
+/* Button Shine Effect */
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-shine::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    60deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.18) 50%,
+    transparent 70%
+  );
+  transform: rotate(30deg) translateY(-100%);
+  transition: transform 0.6s ease;
+}
+
+.btn-shine:hover::after {
+  transform: rotate(30deg) translateY(100%);
+}
+
+/* 60 FPS GPU-Accelerated Voice Orb Motion System */
+@keyframes orb-float {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-6px) scale(1.02); }
+}
+
+@keyframes orb-rotate-ring {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes orb-breathe-glow {
+  0%, 100% { opacity: 0.5; transform: scale(1); filter: blur(24px); }
+  50% { opacity: 0.85; transform: scale(1.15); filter: blur(36px); }
+}
+
+@keyframes listening-ripple {
+  0% { transform: scale(0.9); opacity: 0.9; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+@keyframes eq-bar-wave {
+  0%, 100% { height: 10px; }
+  50% { height: 36px; }
+}
+
+.animate-orb-float {
+  animation: orb-float 4s ease-in-out infinite;
+}
+
+.animate-rotate-ring {
+  animation: orb-rotate-ring 12s linear infinite;
+}
+
+.animate-breathe-glow {
+  animation: orb-breathe-glow 3s ease-in-out infinite;
+}
+
+.animate-ripple-ring {
+  animation: listening-ripple 1.8s cubic-bezier(0.1, 0.8, 0.3, 1) infinite;
+}
+
+.animate-eq-bar {
+  animation: eq-bar-wave 0.75s ease-in-out infinite;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(9, 13, 22, 0.5);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.5);
+}
+
+/* ═══════════════ Transition Keyframes ═══════════════ */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleUp {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.35s ease-out both;
+}
+
+.animate-scaleUp {
+  animation: scaleUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-slideUp {
+  animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-slideDown {
+  animation: slideDown 0.3s ease-out both;
+}
+
+/* ═══════════════ Mobile Responsive ═══════════════ */
+@media (max-width: 480px) {
+  /* Header: stack vertically on small screens */
+  header.glass-panel {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+    padding: 1rem;
+  }
+
+  /* Voice orb: slightly smaller on mobile */
+  .animate-orb-float {
+    transform: scale(0.85);
+  }
+
+  /* Prevent any horizontal overflow */
+  body {
+    overflow-x: hidden;
+  }
+
+  /* Tab switcher: full width with tighter padding */
+  .max-w-md {
+    max-width: 100%;
+  }
+
+  /* Tighter padding on glass panels */
+  .glass-panel {
+    padding: 1rem;
+  }
+
+  /* Quantity selector: stack on very small screens */
+  .glass-panel .flex.items-center.gap-3 {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+}
+
+/* Number input spinner removal */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
