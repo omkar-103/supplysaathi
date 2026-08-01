@@ -188,3 +188,15 @@ SupplySaathi always attempts the real Prava sandbox integration first on every t
 ## Built For
 
 Built for the **Prava Agentic Payments Hackathon** as a working prototype demonstrating agentic procurement and financial inclusion for micro-merchants.
+
+---
+
+## Author
+
+**Omkar Parelkar**
+
+- LinkedIn: https://www.linkedin.com/in/omkar-parelkar/
+- GitHub: https://github.com/omkar-103
+- Portfolio: https://www.omkarparelkar.com/
+- Email: omkarparelkar@gmail.com
+
