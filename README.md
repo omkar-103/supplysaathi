@@ -14,20 +14,26 @@
 
 ## Screenshots
 
-### 1. Main Page — Voice Procurement
-![Main Page](./screenshots/01-main-page.png)
+### 1. Voice Procurement — Mic Off / Mic On
+
+<table>
+<tr>
+<td><img src="./screenshots/01-voice-agent-mic-off.jpeg" width="300"/></td>
+<td><img src="./screenshots/02-voice-agent-mic-on.jpeg" width="300"/></td>
+</tr>
+</table>
 
 ### 2. Credit Ledger Dashboard
-![Credit Ledger](./screenshots/02-credit-ledger.png)
+![Credit Ledger](./screenshots/03-credit-ledger-dashboard.jpeg)
 
-### 3. Payment Authorization (Connecting to Prava)
-![Payment Connecting](./screenshots/03-payment-connecting.png)
+### 3. Prava Payment Authorization
+![Prava Payment](./screenshots/04-prava-payment-authorization.jpeg)
 
-### 4. Payment Failure (Real Prava Sandbox Timeout/Error)
-![Payment Failed](./screenshots/04-payment-failed.png)
+### 4. Payment Failure — Fallback Triggered
+![Payment Failed](./screenshots/05-payment-failed-fallback.jpeg)
 
-### 5. Fallback Demo Mode Payment
-![Fallback Demo Mode](./screenshots/05-fallback-demo-mode.png)
+### 5. Demo Mode — Fallback Success
+![Demo Mode Success](./screenshots/06-demo-mode-success.jpeg)
 
 ---
 
